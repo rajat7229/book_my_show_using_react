@@ -13,9 +13,25 @@ const HomePage = () => {
   const [onlineStreamEvents, setOnlineStreamEvents] = useState([]);
 
   useEffect(() =>{
+    const requestPopularMovies = async () => {
+      const getPopularMovies = await axios.get("/movie/popular");
+      setRecommendedMovies(getPopularMovies.data.results);
+    };
+    requestPopularMovies();
+  }, []);
+
+  useEffect(() =>{
+    const requestUpcomingMovies = async () => {
+      const getUpcomingMovies = await axios.get("/movie/upcoming");
+      setOnlineStreamEvents(getUpcomingMovies.data.results);
+    };
+    requestUpcomingMovies();
+  }, []);
+
+  useEffect(() =>{
     const requestTopRatedMovies = async () => {
-      const getTopRatedMovies = await axios.get("https://api.themoviedb.org/3/movie/top_rated?api_key=04b88e5121dd38d6bdc3a2d82c9037fa");
-      setRecommendedMovies(getTopRatedMovies.data.results);
+      const getTopRatedMovies = await axios.get("/movie/top_rated");
+      setPremierMovies(getTopRatedMovies.data.results);
     };
     requestTopRatedMovies();
   }, []);
@@ -37,7 +53,7 @@ const HomePage = () => {
           <div className="hidden md:flex">
             <img src="https://assets-in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120:q-80/premiere-banner-web-collection-202208191200.png" alt="premier" className="h-full w-full" />
           </div>
-          <PosterSlider title="Premiers" subject="Brand new releases every Friday" posters={premierMovies} isDark={true} />
+          <PosterSlider title="Premiers" subtitle="Brand new releases every Friday" posters={premierMovies} isDark={true} />
         </div>
       </div>
 
