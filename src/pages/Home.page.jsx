@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 // Components
 import EntertainmentCardSlider from '../components/Entertainment/EntertainmentCard.component';
 import HeroCarousel from '../components/HeroCarousel/HeroCarousel.component';
@@ -10,6 +11,15 @@ const HomePage = () => {
   const [recommendedMovies, setRecommendedMovies] = useState([]);
   const [premierMovies, setPremierMovies] = useState([]);
   const [onlineStreamEvents, setOnlineStreamEvents] = useState([]);
+
+  useEffect(() =>{
+    const requestTopRatedMovies = async () => {
+      const getTopRatedMovies = await axios.get("https://api.themoviedb.org/3/movie/top_rated?api_key=04b88e5121dd38d6bdc3a2d82c9037fa");
+      setRecommendedMovies(getTopRatedMovies.data.results);
+    };
+    requestTopRatedMovies();
+  }, []);
+
   return (
     <>
       <HeroCarousel />
@@ -19,7 +29,7 @@ const HomePage = () => {
       </div>
 
       <div className="container mx-auto px-4 md:px-12 my-8">
-            <PosterSlider title="Recommended Movies" subject="List of recommended movies" posters={recommendedMovies} isDark={false} />
+            <PosterSlider title="Recommended Movies" subtitle="List of recommended movies" posters={recommendedMovies} isDark={false} />
       </div>
 
       <div className="bg-premier-800 py-12">
