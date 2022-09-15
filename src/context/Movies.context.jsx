@@ -1,8 +1,20 @@
 import React, { useState, createContext } from 'react';
 
-const MoviesProvider = () => {
+export const MovieContext = createContext();
+
+const MoviesProvider = ({children}) => {
+  const [movie, setMovie] = useState({
+    id: 0,
+    original_title: "",
+    overview: "",
+    backdrop_path: "",
+    poster_path: ""
+  });
+  
   return (
-    <div>MoviesProvider</div>
+    <MovieContext.Provider value={{ movie, setMovie }}>
+      {children}
+    </MovieContext.Provider>
   );
 };
 

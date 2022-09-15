@@ -58,7 +58,7 @@ const HomePage = () => {
       </div>
 
       <div className="container mx-auto px-4 md:px-12 my-8 flex flex-col gap-3">
-      <PosterSlider title="Online Streaming Event" subject="" posters={onlineStreamEvents} isDark={false} />
+      <PosterSlider title="Online Streaming Event" subtitle="" posters={onlineStreamEvents} isDark={false} />
       </div>
     </>
   );
