@@ -5,13 +5,14 @@ import axios from 'axios';
 import { MovieContext } from '../context/Movies.context';
 import Slider from 'react-slick';
 import {FaCcVisa, FaCcApplePay} from 'react-icons/fa';
-import PosterSlider from "../components/PosterSlider/PosterSlider.component";
+import PosterSlider from "../components/PosterSlider/PosterSlider.Component";
+import MovieHero from '../components/MovieHero/MovieHero.Component';
 
 const MoviePage = () => {
 
-  const { id } = useParams();
+  const {id} = useParams();
 
-  const { movie} = useContext(MovieContext);
+  const { movie, setMovie} = useContext(MovieContext);
 
   const [cast, setCast] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
@@ -39,6 +40,14 @@ const MoviePage = () => {
       setRecommendedMovies(getRecommendedMovies.data.results);
     };
     requestRecommendedMovies();
+  }, [id]);
+
+  useEffect(() => {
+    const requestMovie = async () => {
+      const getMovieData = await axios.get(`/movie/${id}`);
+      setMovie(getMovieData.data);
+    };
+    requestMovie();
   }, [id]);
 
   const settingCast = {};
@@ -77,8 +86,8 @@ const MoviePage = () => {
   };
 
   return (
-  <>{/* <MovieHero/> */}
-    <div className='my-12 container px-4 lg-ml-20 lg:w-2/1'>
+  <><MovieHero/>
+    <div className='my-12 container px-4 lg-ml-20 lg:w-2/3'>
       <div className='flex flex-col items-start gap-3'>
         <h1 className='text-gray-800 font-bold text-2xl'>
           About the movie
@@ -93,7 +102,7 @@ const MoviePage = () => {
         <h2 className='text-gray-800 font-bold text-2xl mb-3'>
           Applicable Offers
         </h2>
-        <div className='flex flex-col gap-3 lg:flex-row lg:w-3/4'>
+        <div className='flex flex-col gap-3 lg:flex-row'>
           <div className='flex items-start gap-2 bg-yellow-100 p-3 border-yellow-400 border-dashed border-2 rounded-md'>
             <div className='w-8 h-8'>
               <FaCcVisa className='w-full h-full' />
